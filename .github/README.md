@@ -2,8 +2,8 @@
 
 **ASDD** (Agent Spec Software Development) es un framework de desarrollo asistido por IA que organiza el trabajo de software en diversas fases orquestadas por agentes especializados.
 
-```
-Requerimiento → Spec API → QA → Doc (opcional)
+```text
+Requerimiento → Spec API → QA → Implementación → Doc (opcional)
 ```
 
 > Esta guía cubre el uso con **GitHub Copilot Chat** en VS Code.
@@ -68,11 +68,20 @@ El agente genera: casos Gherkin y matriz de riesgos.
 
 ---
 
----
+### Paso 3 — Implementation (Karate)
+
+With the QA strategy ready from the previous phase:
+
+```text
+@Implement Karate Assets Agent builds schemas and payloads layer for specs/<feature>.spec.md
+@Implement Karate Feature Agent assembles the final .feature for specs/<feature>.spec.md
+```
+
+Both agents enforce structured automation implementation for Karate.
 
 ---
 
-### Paso 3 — Documentación *(opcional)*
+### Paso 4 — Documentación *(opcional)*
 
 Al cerrar el feature:
 
@@ -91,32 +100,35 @@ Al cerrar el feature:
 /asdd-orchestrate <nombre-feature>
 ```
 
----
+## Agentes disponibles (`@name` in Copilot Chat)
 
-## Agentes disponibles (`@nombre` en Copilot Chat)
-
-| Agente | Fase | Cuándo usarlo |
+| Agent | Phase | When to use |
 |---|---|---|
-| `@Orchestrator` | Entry point | Coordinar el flujo completo (`/asdd-orchestrate status` para ver estado) |
-| `@Spec Generator` | Fase 1 | Validar un requerimiento y generar su spec técnica |
-| `@QA Agent` | Fase 2 | Gherkin, riesgos y análisis BDD |
-| `@Documentation Agent` | Fase 3 | README, API docs y ADRs |
+| `@Orchestrator` | Entry point | Coordinate the full flow (`/asdd-orchestrate status` to see status) |
+| `@Spec Generator` | Phase 1 | Validate a requirement and generate its technical spec |
+| `@QA Agent` | Phase 2 | Gherkin, risks, and BDD analysis |
+| `@Implement Karate Assets Agent`| Phase 3 | Generate reusable schemas and payloads for Karate |
+| `@Implement Karate Feature Agent`| Phase 3 | Generate .feature file by assembling previous assets |
+| `@Documentation Agent` | Phase 4 | README, API docs, and ADRs |
 
 ---
 
-## Skills disponibles (`/comando` en Copilot Chat)
+## Skills disponibles (`/command` in Copilot Chat)
 
-| Comando | Agente | Qué hace |
+| Command | Agent | What it does |
 |---|---|---|
-| `/asdd-orchestrate` | Orchestrator | Orquesta el flujo completo o muestra estado actual |
-| `/generate-spec` | Spec Generator | Genera spec técnica con validación INVEST/IEEE 830 |
-| `/gherkin-case-generator` | QA Agent | Flujos críticos + casos Given-When-Then + datos de prueba |
-| `/risk-identifier` | QA Agent | Matriz de riesgos ASD (Alto/Medio/Bajo) |
-| `/automation-flow-proposer` | QA Agent | Propone flujos a automatizar con estimación de ROI |
+| `/asdd-orchestrate` | Orchestrator | Orchestrates the full flow or shows current status |
+| `/generate-spec` | Spec Generator | Generates technical spec with INVEST/IEEE 830 validation |
+| `/gherkin-case-generator` | QA Agent | Critical flows + Given-When-Then cases + test data |
+| `/risk-identifier` | QA Agent | ASD risk matrix (High/Medium/Low) |
+| `/performance-analyzer` | QA Agent | Performance test planning |
+| `/generate-project-readme` | Documentation Agent | Generates or updates the main Karate framework README.md |
+| `/implement-karate-assets` | Implement Karate Assets Agent | Generates reusable Karate assets (schemas and payloads) |
+| `/implement-karate-feature` | Implement Karate Feature Agent | Generates the complete Karate .feature file |
 
 ---
 
-## Prompts disponibles (`/nombre` en Copilot Chat)
+## Prompts disponibles (`/name` in Copilot Chat)
 
 Alternativa rápida a invocar agentes directamente:
 
@@ -185,6 +197,8 @@ Project Root/
     │   ├── orchestrator.agent.md
     │   ├── spec-generator.agent.md
     │   ├── qa.agent.md
+    │   ├── implement-karate-assets.agent.md
+    │   ├── implement-karate-feature.agent.md
     │   └── documentation.agent.md
     │
     ├── skills/                      ← skills (/comando en Copilot Chat)
@@ -193,6 +207,8 @@ Project Root/
     │   ├── gherkin-case-generator/
     │   ├── risk-identifier/
     │   ├── automation-flow-proposer/
+    │   ├── implement-karate-assets/
+    │   ├── implement-karate-feature/
     │
     ├── docs/lineamientos/           ← guidelines del framework (incluidos al compartir)
     │   ├── dev-guidelines.md

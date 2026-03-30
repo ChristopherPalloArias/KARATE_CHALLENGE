@@ -5,13 +5,14 @@
 Este repositorio sigue el flujo **ASDD**: toda funcionalidad nueva se ejecuta en cuatro fases orquestadas por agentes especializados.
 
 ```
-[Orchestrator] → [Spec Generator] → [QA] → [Doc]
+[Orchestrator] → [Spec Generator] → [QA] → [Implement] → [Doc]
 ```
 
 ### Fases del flujo ASDD
 1. **Spec**: El agente `spec-generator` genera la spec en `.github/specs/<feature>.spec.md`.
 2. **QA**: `qa-agent` genera estrategia, Gherkin, riesgos y automatización.
-3. **Doc (opcional)**: `documentation-agent` genera README updates, API docs y ADRs.
+3. **Implement**: `implement-karate-assets` e `implement-karate-feature` generan esquema base y features para Karate.
+4. **Doc (opcional)**: `documentation-agent` genera README updates, API docs y ADRs.
 
 ### Skills disponibles (slash commands):
 - `/asdd-orchestrate` — orquesta el flujo completo ASDD o consulta estado
@@ -21,6 +22,8 @@ Este repositorio sigue el flujo **ASDD**: toda funcionalidad nueva se ejecuta en
 - `/automation-flow-proposer` — propuesta de automatización con ROI
 - `/performance-analyzer` — planificación de pruebas de performance
 - `/generate-project-readme` — genera o actualiza el README.md principal del framework Karate basado en la implementación
+- `/implement-karate-assets` — genera assets base reutilizables (schemas y payloads)
+- `/implement-karate-feature` — genera la automatización final de Karate (.feature)
 
 ### Requerimientos y Specs
 - Los requerimientos de negocio viven en `.github/requirements/`. Son la entrada al pipeline ASDD.
@@ -38,7 +41,9 @@ Este repositorio sigue el flujo **ASDD**: toda funcionalidad nueva se ejecuta en
 | Orchestrator | Entry point | `.github/agents/orchestrator.agent.md` |
 | Spec Generator | Fase 1 | `.github/agents/spec-generator.agent.md` |
 | QA Agent | Fase 2 | `.github/agents/qa.agent.md` |
-| Documentation Agent | Fase 3 | `.github/agents/documentation.agent.md` |
+| Implement Karate Assets Agent | Fase 3 | `.github/agents/implement-karate-assets.agent.md` |
+| Implement Karate Feature Agent | Fase 3 | `.github/agents/implement-karate-feature.agent.md` |
+| Documentation Agent | Fase 4 | `.github/agents/documentation.agent.md` |
 
 ### Skills
 | Skill | Agente | Ruta |
@@ -50,6 +55,8 @@ Este repositorio sigue el flujo **ASDD**: toda funcionalidad nueva se ejecuta en
 | `/automation-flow-proposer` | QA Agent | `.github/skills/automation-flow-proposer/SKILL.md` |
 | `/performance-analyzer` | QA Agent | `.github/skills/performance-analyzer/SKILL.md` |
 | `/generate-project-readme` | Documentation Agent | `.github/skills/generate-project-readme/SKILL.md` |
+| `/implement-karate-assets` | Implement Karate Assets Agent | `.github/skills/implement-karate-assets/SKILL.md` |
+| `/implement-karate-feature` | Implement Karate Feature Agent | `.github/skills/implement-karate-feature/SKILL.md` |
 
 ### Instructions (path-scoped)
 | Scope | Ruta | Se aplica a |
