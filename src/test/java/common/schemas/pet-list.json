@@ -1,0 +1,8 @@
+[
+  {
+    "id": "#number",
+    "name": "#string",
+    "status": "#string",
+    "photoUrls": "#array"
+  }
+]

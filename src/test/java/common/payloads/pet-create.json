@@ -1,0 +1,6 @@
+{
+  "id": "#(petId)",
+  "name": "#(petName)",
+  "status": "available",
+  "photoUrls": "#(photoUrls)"
+}

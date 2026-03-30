@@ -10,7 +10,7 @@ function fn() {
   
   var config = {
     env: env,
-    baseUrl: baseUrl || '',
+    baseUrl: baseUrl || 'https://petstore.swagger.io/v2',
     timeoutMs: 5000
   };
   
