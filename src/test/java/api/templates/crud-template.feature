@@ -1,3 +1,4 @@
+@ignore
 Feature: Generic CRUD Template API Testing
   As an automation framework
   I want to demonstrate a clean CRUD lifecycle test
