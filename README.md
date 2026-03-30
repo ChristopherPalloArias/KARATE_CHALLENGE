@@ -6,6 +6,7 @@
 
 **Autor:** Christopher Ismael Pallo Arias  
 **Correo:** christopher.pallo@sofka.com.co  
+**Celular:** 0995312828  
 **Proyecto:** Validación del ciclo de vida completo de una mascota en PetStore usando Karate  
 **Objetivo:** Automatizar el flujo solicitado del reto sobre la API pública `PetStore`
 
@@ -291,7 +292,9 @@ La suite aísla la lógica para adherirse a Patrones Modulares:
 | Capa | Paquete / Ruta | Responsabilidad |
 |---|---|---|
 | 📄 **Features** | `src/test/java/api/petstore/` | Archivos Gherkin (`.feature`) con la semántica del negocio y aserciones. Contienen los Scenarios del API. |
+| 📦 **Payloads** | `src/test/java/common/payloads/` | Almacenamiento desacoplado de los Data Objects (JSON Reusables) mapeados estáticamente, para inyección en request body con interpolación nativa `#(var)`. |
 | ⚙️ **Config** | `src/test/java/karate-config.js` | Inicialización de endpoints dinámicos, inyección de `baseUrl` por ambiente y manejo de resiliencia. |
+| 📝 **Logging** | `src/test/java/logback-test.xml` | Reglas de supresión de ruido y formateo de trazas del compilador en buffer `target/karate.log`. |
 | 🏃 **Runners** | `src/test/java/runners/` | Orquestador de JUnit 5 (`ChallengeTest.java`). |
 
 ---
@@ -341,3 +344,9 @@ Al concluir, Karate auto-genera en tiempo real un **HTML Report** inyectado, que
 
 * **Inestabilidad Pública del Entorno de Swagger:**  
   Al requerir validación de casos aislados con números ficticios excesivos, el servidor en ocasiones emitía inestabilidad arrojando Exception Code `500 Internal Server Error` en lugar de `404 Not Found` en la capa base. La aserción fue diseñada explícitamente para observar un comportamiento asertivo tolerante y resiliente: `Then match responseStatus == 404 || responseStatus == 500`.
+
+* **Desacople Riguroso de Data Objects (JSON):**
+  A diferencia de ejemplos básicos en Karate, la suite rechaza la inserción *hardcodeada* de JSONs "quemados" sobre el bloque `And request`. Siguiendo el *Clean Code*, se resolvió migrando los cuerpos estructurales a archivos independientes (`pet-create.json`), inyectando macros `#(petId)` y referenciándolos funcionalmente de forma asíncrona mediante el comando `* def currentLoad = read('classpath:...')`.
+
+* **Manejo Estricto de Niveles de Logging (Console Noise):**
+  Se resolvió el factor problemático de Maven arrojando trazas kilométricas confusas al proveer un `logback-test.xml` orquestado. De este modo, la consola del CI arroja un Build Success depurado, empujando todas las anomalías y detalles de payload transaccional al documento físico seguro: `target/karate.log`.
