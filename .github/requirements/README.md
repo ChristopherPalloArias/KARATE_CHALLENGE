@@ -1,35 +1,20 @@
 # Requirements — Requerimientos de Negocio
 
-Este directorio contiene los requerimientos de negocio que están **listos para ser especificados** pero aún no tienen una spec generada.
+Esta carpeta aloja los requerimientos crudos recibidos en lenguaje natural (resolviendo los retos técnicos del cliente o features de un sprint), estructurados de forma formal para iniciar el flujo ASDD con Karate.
 
-## ¿Qué es un Requerimiento?
+## ¿Qué hay en esta carpeta?
 
-Un requerimiento es un documento que describe **qué necesita el negocio**, antes de que el `Spec Generator` lo convierta en una spec técnica ASDD. Es la entrada al pipeline ASDD.
+- **`README.md`**: Este manual operativo.
+- **`requirement-template.md`**: El **MOLDE** oficial maestro de requerimientos técnicos para la arquitectura Karate. **No debe editarse**. Es el canon operativo.
+- **Requerimientos Reales (ej: `client-api-crud-challenge.md`)**: Son copias del template, rellenados con el lenguaje natural estructurado del reto técnico en sí. Es aquí donde se resuelve el análisis humano o donde interviene la IA base.
 
-## Lifecycle
+## Flujo Operativo
 
-```
-requirements/<feature>.md  →  /generate-spec  →  specs/<feature>.spec.md
-  (requerimiento de negocio)     (Spec Generator)    (especificación técnica)
-```
+Todo reto o feature en este framework debe inicializarse copiando la plantilla antes de que un agente lo convierta en Especificación Técnica (`.spec.md`):
 
-## Cómo Usar
+1. **Recepción**: Recibes un PDF, correo o historia de usuario detallando el reto API REST.
+2. **Plantillaje**: Copias íntegramente `requirement-template.md`, lo guardas en esta misma carpeta y lo bautizas con un nombre kebab-case (ej: `auth-flow-challenge.md` o `client-crud-api.md`).
+3. **Escritura**: Traduces las exigencias del cliente a ese documento copiado cubriendo la tabla de *endpoints*, el contexto de autorización y la matriz de pruebas negativas.
+4. **ASDD Entry**: Le pides al Agente ASDD que inicie el flujo usando ese archivo. `Copilot: /generate-spec auth-flow-challenge`.
 
-1. Crear un archivo `<feature>.md` en este directorio con la descripción del requerimiento
-2. Ejecutar `/generate-spec` o usar `@Spec Generator` en Copilot Chat
-3. Una vez generada la spec en `.github/specs/`, el requerimiento puede archivarse o eliminarse
-
-## Convención de Nombres
-
-```
-.github/requirements/<nombre-feature-kebab-case>.md
-```
-
-## Requerimientos Pendientes
-
-| Feature | Archivo | Estado |
-|---------|---------|--------|
-| Creación de Usuarios por Administrador | `user-creation.md` | LISTO PARA SPEC |
-| Módulo de Conversiones | `conversiones.md` | LISTO PARA SPEC |
-
-> Actualiza esta tabla al agregar o procesar requerimientos.
+> **Regla de Oro**: Jamás sobrescribas la plantilla `requirement-template.md`. Sirve como guía de robustez para prevenir ambigüedad y evitar omitir escenarios, URLs base y validaciones de esquema de datos.
