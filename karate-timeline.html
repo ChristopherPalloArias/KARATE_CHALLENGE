@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Karate Timeline</title>
+    <style>
+      body, html { font-family: arial, sans-serif; font-size: 11pt; }
+      #visualization { box-sizing: border-box; width: 100%; height: 300px; }
+      .vis-item.failed { background-color: #F2928C; }
+      .page-heading { padding: 0.5em; margin-bottom: 0.5em; background-color: lightcyan; border: 1px solid gray; }
+    </style>
+    <script src="res/vis.min.js"></script>
+    <link href="res/vis.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="page-heading">
+      <a href="karate-summary.html">Summary</a>
+    </div>     
+    <div id="visualization"></div>
+    <script>
+var groups = [{"content":"pool-2-thread-1","id":1},{"content":"pool-2-thread-2","id":2}];
+var items = [{"id":1,"group":1,"content":"api\/petstore\/petstore-exercise-2[1:16]","start":1774897004958,"end":1774897006296,"title":"api\/petstore\/petstore-exercise-2[1:16] 18:56:44.958-18:56:46.296 SC-1 - Full pet lifecycle: create, retrieve, update, and find by status"},{"id":2,"group":2,"content":"api\/petstore\/petstore-exercise-2[2:78]","start":1774897004958,"end":1774897005811,"title":"api\/petstore\/petstore-exercise-2[2:78] 18:56:44.958-18:56:45.811 SC-2 - Handle non-existent petId gracefully"}];
+</script>
+    <script>
+      var container = document.getElementById('visualization');
+      var timeline = new vis.Timeline(container);
+      timeline.setOptions({groupOrder: 'content'});
+      timeline.setGroups(new vis.DataSet(groups));
+      timeline.setItems(new vis.DataSet(items));
+    </script>
+  </body>
+</html>
