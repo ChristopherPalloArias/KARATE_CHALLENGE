@@ -1,7 +1,7 @@
 ````markdown
 ---
 id: SPEC-001
-status: DRAFT
+status: APPROVED
 feature: petstore-exercise-2
 created: 2026-03-30
 updated: 2026-03-30
