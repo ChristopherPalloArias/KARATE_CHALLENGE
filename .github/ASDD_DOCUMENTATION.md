@@ -1,69 +1,3 @@
-<div align="center">
-  
-# 🚀 KARATE_API_AUTOMATION
-### Taller 7: Maestría en Automatización
-
-**Autor:** Christopher Pallo  
-**Entregable:** Práctica Karate (Ejercicio 2)  
-**Proyecto:** Automatización de Pruebas API End-to-End usando el framework **Karate DSL** orientado a flujos secuenciales y dependencias de datos mediante **IA y Spec-Driven Development**.
-
-<br />
-
-### 🛠️ Technology Stack
-
-**Automation Framework**
-<br />
-<img src="https://img.shields.io/badge/Karate%20DSL-1.5.0-black?style=for-the-badge" alt="Karate DSL" />
-<img src="https://img.shields.io/badge/JUnit-5-25A162?style=for-the-badge" alt="JUnit 5" />
-<br />
-<a href="https://skillicons.dev">
-  <img src="https://skillicons.dev/icons?i=java,maven,github" alt="Automation Stack" />
-</a>
-
-**Application Under Test (PetStore API)**
-<br />
-<a href="https://skillicons.dev">
-  <img src="https://skillicons.dev/icons?i=nodejs,express,swagger" alt="App Stack" />
-</a>
-
-</div>
-
----
-
-## 📋 Tabla de Contenidos
-1. [Contexto del Reto](#-contexto-del-reto)
-2. [Entorno y Prerrequisitos (Compatibilidad)](#️-entorno-y-prerrequisitos-compatibilidad)
-3. [ASDD — Agent Spec-Driven Development](#asdd--agent-spec-driven-development)
-4. [Escenario E2E: Ciclo de Vida de la Mascota](#-escenario-e2e-ciclo-de-vida-de-la-mascota)
-5. [Arquitectura y Estructura del Framework](#️-arquitectura-y-estructura-del-framework)
-6. [Instrucciones de Clonado y Setup](#-instrucciones-de-clonado-y-setup-entorno-local)
-7. [Ejecución y Generación de Reportes](#️-ejecución-y-generación-de-reportes)
-8. [Retos y Conclusiones (API)](#-consideraciones-técnicas-y-retos-resueltos-api)
-
----
-
-## 🎯 Contexto del Reto
-
-Este repositorio corresponde al **Ejercicio 2** del reto de Automatización API. El objetivo es certificar el dominio técnico sobre la implementación de pruebas automatizadas contra APIs REST utilizando el framework **Karate DSL**. 
-La prueba valida el ciclo de vida completo de una entidad (*Pet*) en un entorno público y compartido, demostrando habilidades avanzadas en la inyección de datos dinámicos, encadenamiento de peticiones (chaining), validaciones estrictas y manejo seguro de estados para evitar colisiones de datos.
-
-> **Nota para los Evaluadores:** Los entregables solicitados formalmente por el ejercicio (`readme.txt` de instrucciones paso a paso, y `conclusiones.txt` con los hallazgos) se encuentran explícitamente adjuntos en la raíz del repositorio, adicional a este documento central exhaustivo.
-
----
-
-## 🛠️ Entorno y Prerrequisitos (Compatibilidad)
-
-> ⚠️ **El uso de estas versiones es fundamental para compilar y ejecutar la suite correctamente.**
-
-| Componente | Versión Requerida | Verificación |
-|------------|------------------|--------------|
-| **Java / JDK** | `17` (LTS) | `java -version` → `openjdk 17.x.x` |
-| **Maven** | `3.8+` | `mvn -v` → `Apache Maven 3.x` |
-| **Karate DSL** | `1.5.0` | Definido en `pom.xml` |
-| **JUnit** | `5.10.0` | Definido en `pom.xml` |
-
----
-
 # ASDD — Agent Spec-Driven Development
 
 **ASDD** (Agent Spec Software Development) es un framework de desarrollo asistido por IA que organiza el trabajo de software en diversas fases orquestadas por agentes especializados.
@@ -74,6 +8,8 @@ Requerimiento → Spec API → QA → Implementación → Doc (opcional)
 
 > Esta guía cubre el uso con **GitHub Copilot Chat** en VS Code.
 
+---
+
 ## Requisitos
 
 | Requisito | Detalle |
@@ -83,6 +19,8 @@ Requerimiento → Spec API → QA → Implementación → Doc (opcional)
 | Setting habilitado | `github.copilot.chat.codeGeneration.useInstructionFiles: true` |
 
 El archivo `.vscode/settings.json` ya configura el auto-descubrimiento de agentes, skills e instructions. Si no existe, créalo con las rutas correspondientes a `.github/`.
+
+---
 
 ## Onboarding — nuevo proyecto
 
@@ -97,6 +35,8 @@ Al copiar `.github/` y `docs/` a un proyecto nuevo, completa estos archivos **en
 Una vez completados, los agentes tienen todo el contexto para operar de forma autónoma.
 
 **No modificar**: `agents/`, `skills/`, `instructions/`, `.github/docs/lineamientos/`, `copilot-instructions.md`, `AGENTS.md`
+
+---
 
 ## El flujo ASDD paso a paso
 
@@ -114,6 +54,8 @@ Genera la especificación técnica antes de escribir código:
 El agente valida el requerimiento y genera `specs/<feature>.spec.md` con estado `DRAFT`.
 Revisa y aprueba la spec (cambia a `APPROVED`) antes de continuar.
 
+---
+
 ### Paso 2 — QA
 
 Con la spec `APPROVED`, ejecuta la estrategia QA:
@@ -123,6 +65,8 @@ Con la spec `APPROVED`, ejecuta la estrategia QA:
 ```
 
 El agente genera: casos Gherkin y matriz de riesgos.
+
+---
 
 ### Paso 3 — Implementation (Karate)
 
@@ -135,6 +79,8 @@ With the QA strategy ready from the previous phase:
 
 Both agents enforce structured automation implementation for Karate.
 
+---
+
 ### Paso 4 — Documentación *(opcional)*
 
 Al cerrar el feature:
@@ -142,6 +88,8 @@ Al cerrar el feature:
 ```
 @Documentation Agent documenta el feature specs/<feature>.spec.md
 ```
+
+---
 
 ### Flujo completo con Orchestrator
 
@@ -163,6 +111,8 @@ Al cerrar el feature:
 | `@Implement Karate Feature Agent`| Phase 3 | Generate .feature file by assembling previous assets |
 | `@Documentation Agent` | Phase 4 | README, API docs, and ADRs |
 
+---
+
 ## Skills disponibles (`/command` in Copilot Chat)
 
 | Command | Agent | What it does |
@@ -176,6 +126,8 @@ Al cerrar el feature:
 | `/implement-karate-assets` | Implement Karate Assets Agent | Generates reusable Karate assets (schemas and payloads) |
 | `/implement-karate-feature` | Implement Karate Feature Agent | Generates the complete Karate .feature file |
 
+---
+
 ## Prompts disponibles (`/name` in Copilot Chat)
 
 Alternativa rápida a invocar agentes directamente:
@@ -187,6 +139,8 @@ Alternativa rápida a invocar agentes directamente:
 | `/doc-task` | Generar documentación técnica del feature |
 | `/full-flow` | Orquestar todas las fases de principio a fin |
 
+---
+
 ## Instructions automáticas (sin intervención manual)
 
 Inyectadas automáticamente por Copilot cuando el archivo activo coincide:
@@ -194,10 +148,23 @@ Inyectadas automáticamente por Copilot cuando el archivo activo coincide:
 | Archivo activo | Instructions aplicadas |
 |---|---|
 | `**/*.feature` | `instructions/tests.instructions.md` |
+
+> Si el proyecto usa otro stack, ajusta los patrones `applyTo:` de cada archivo.
+
+---
+
+## Instructions automáticas (sin intervención manual)
+
+Inyectadas automáticamente por Copilot cuando el archivo activo coincide:
+
+| Archivo activo | Instructions aplicadas |
+|---|---|
 | `src/test/java/**/*.feature` | `instructions/karate.instructions.md` |
 | `src/test/java/**/*.java` | `instructions/karate.instructions.md` |
 
 > Si el framework asume una convención de nombramiento diferente, ajusta los patrones `applyTo:` de cada archivo de `.github/instructions`.
+
+---
 
 ## Lineamientos de referencia
 
@@ -209,7 +176,9 @@ Cargados automáticamente por los agentes:
 | `.github/docs/lineamientos/qa-guidelines.md` | Estrategia QA, Gherkin, Riesgos, Automatización, Performance |
 | `.github/docs/lineamientos/guidelines.md` | Referencia rápida de estándares: código, tests, API, Git |
 
-## Estructura de carpetas Arquitectura
+---
+
+## Estructura de carpetas
 
 ```
 Project Root/
@@ -256,91 +225,11 @@ Project Root/
         └── <feature>.spec.md        ← DRAFT → APPROVED → IN_PROGRESS → IMPLEMENTED
 ```
 
+---
+
 ## Reglas de Oro
 
 1. **No código sin spec aprobada** — siempre debe existir `specs/<feature>.spec.md` con estado `APPROVED`.
 2. **No código no autorizado** — los agentes no generan ni modifican código sin instrucción explícita.
 3. **No suposiciones** — si el requerimiento es ambiguo, el agente pregunta antes de actuar.
 4. **Transparencia** — el agente explica qué va a hacer antes de hacerlo.
-
----
-
-## 🔄 Escenario E2E: Ciclo de Vida de la Mascota (Pet Lifecycle)
-
-El framework ejecuta un flujo End-to-End **idempotente** y **autocontenido** dentro de un único Escenario en Karate, garantizando que el estado se pase correctamente de petición en petición de manera limpia:
-
-```
-Creación de la mascota ➜ Recuperar por ID ➜ Actualizar nombre/estado (Sold) ➜ Búsqueda general por estado
-```
-
-### Estrategia de Idempotencia y Cero-Colisiones
-
-Dado que PetStore (`swagger.io`) es un entorno público y compartido, el framework inyecta un identificador único en tiempo de ejecución de lado de Java interactuando con JavaScript, eliminando posibles solapamientos de datos con otros estudiantes o usuarios evaluadores:
-
-```javascript
-# Se captura el timestamp de Java y se procesa seguro para evitar notación científica:
-* def tsStr = java.lang.Long.toString(java.lang.System.currentTimeMillis())
-* def petId = java.lang.Integer.parseInt(tsStr.substring(tsStr.length() - 8))
-```
-
-Esto genera un identificador seguro de 8 dígitos y un nombre de mascota asociado como `TestPet_1712...` que se pasa durante todo el ciclo de vida sin interrupciones.
-
----
-
-## 🏗️ Arquitectura y Estructura del Framework
-
-La suite aísla la lógica para adherirse a Patrones Modulares:
-
-| Capa | Paquete / Ruta | Responsabilidad |
-|---|---|---|
-| 📄 **Features** | `src/test/java/api/petstore/` | Archivos Gherkin (`.feature`) con la semántica del negocio y aserciones. Contienen los Scenarios del API. |
-| ⚙️ **Config** | `src/test/java/karate-config.js` | Inicialización de endpoints dinámicos, inyección de `baseUrl` por ambiente y manejo de resiliencia. |
-| 🏃 **Runners** | `src/test/java/runners/` | Orquestador de JUnit 5 (`ChallengeTest.java`). |
-
----
-
-## ⚡ Instrucciones de Clonado y Setup (Entorno Local)
-
-### Paso 1: Clonar este Repositorio
-
-```bash
-git clone https://github.com/ChristopherPalloArias/KARATE_CHALLENGE.git
-cd KARATE_CHALLENGE
-```
-
-### Paso 2: Análisis (Opcional)
-No existe necesidad de levantar contenedores locales ni aplicaciones, puesto que las pruebas atacan directamente el entorno de nube público (Swagger PetStore v2). Solamente asegúrate de tener conectividad a internet para resolver las dependencias Maven.
-
----
-
-## ▶️ Ejecución y Generación de Reportes
-
-Para despachar la suite en modo local desde consola y generar el proceso de reportes de Karate, ejecuta:
-
-### Ejecución Directa de la Suite Estándar
-
-```bash
-mvn test -Dtest=ChallengeTest
-```
-
-### Reporte de Evidencia y Trazabilidad (Living Documentation)
-
-Al concluir, Karate auto-genera en tiempo real un **HTML Report** inyectado, que contendrá las evidencias detalladas de latencia, Request (Headers/Payload) y Response de trazabilidad absoluta para cada endpoint atacado.
-
-* **El index maestro del informe lo encuentras en:**
-  ```text
-  target/karate-reports/karate-summary.html
-  ```
-
----
-
-## 🧩 Consideraciones Técnicas y Retos Resueltos (API)
-
-* **Prevención de Notación Científica en Identificadores (GraalVM):**  
-  Al usar algoritmos de módulo Matemático sobre Timestamps en JavaScript (dentro de GraalVM de Karate), si los identificadores resultan enormes, las peticiones GET se construían erróneamente con notación científica (ej. `/pet/8.83308084E8`), disparando errores 404 del servidor. Este reto se solventó convirtiendo el valor forzadamente apoyándonos en la API estática de Java `java.lang.Integer.parseInt()`.
-
-* **Naturaleza Estricta del Aislamiento de Escenarios en Karate:**  
-  A diferencia de Cucumber nativo en Java donde se pueden instanciar variables a nivel de Clase global para compartirse, Karate vacía la memoria al cambiar de `Scenario`. Por ello, consolidar el ciclo de vida transaccional (`Idempotent E2E Lifecycle`) en un solo flujo secuencial demostró ser el patrón arquitectónico correcto frente a quebrar el código en "Given's" frágiles multiescenario.
-
-* **Inestabilidad Pública del Entorno de Swagger:**  
-  Al requerir validación de casos aislados con números ficticios excesivos, el servidor en ocasiones emitía inestabilidad arrojando Exception Code `500 Internal Server Error` en lugar de `404 Not Found` en la capa base. La aserción fue diseñada explícitamente para observar un comportamiento asertivo tolerante y resiliente: `Then match responseStatus == 404 || responseStatus == 500`.
