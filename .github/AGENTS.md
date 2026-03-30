@@ -24,7 +24,7 @@ qa-agent          → /gherkin-case-generator, /risk-identifier
 qa-agent          → /implement-karate-assets, /implement-karate-feature
 
 [FASE 4 — Opcional]
-documentation-agent → README, API docs, ADRs
+documentation-agent → /generate-project-readme → README, API docs, ADRs
 ```
 
 ## Agent Skills (slash commands)
@@ -50,6 +50,11 @@ Skills are portable instruction sets invokable as `/command` in Copilot Chat. Th
 |-------|---------------|-------------|
 | implement-karate-assets | `/implement-karate-assets` | Genera assets (schema/payloads) reusables desde la spec |
 | implement-karate-feature | `/implement-karate-feature` | Genera el archivo .feature de Karate para la spec |
+
+### Documentación
+| Skill | Slash Command | Descripción |
+|-------|---------------|-------------|
+| generate-project-readme | `/generate-project-readme` | Genera o actualiza el README.md principal basado en implementaciones reales |
 
 ## Lineamientos y Contexto
 

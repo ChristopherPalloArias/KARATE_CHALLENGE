@@ -20,6 +20,7 @@ Este repositorio sigue el flujo **ASDD**: toda funcionalidad nueva se ejecuta en
 - `/risk-identifier` — clasificación de riesgos ASD (Alto/Medio/Bajo)
 - `/automation-flow-proposer` — propuesta de automatización con ROI
 - `/performance-analyzer` — planificación de pruebas de performance
+- `/generate-project-readme` — genera o actualiza el README.md principal del framework Karate basado en la implementación
 
 ### Requerimientos y Specs
 - Los requerimientos de negocio viven en `.github/requirements/`. Son la entrada al pipeline ASDD.
@@ -48,6 +49,7 @@ Este repositorio sigue el flujo **ASDD**: toda funcionalidad nueva se ejecuta en
 | `/risk-identifier` | QA Agent | `.github/skills/risk-identifier/SKILL.md` |
 | `/automation-flow-proposer` | QA Agent | `.github/skills/automation-flow-proposer/SKILL.md` |
 | `/performance-analyzer` | QA Agent | `.github/skills/performance-analyzer/SKILL.md` |
+| `/generate-project-readme` | Documentation Agent | `.github/skills/generate-project-readme/SKILL.md` |
 
 ### Instructions (path-scoped)
 | Scope | Ruta | Se aplica a |
