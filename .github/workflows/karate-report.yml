@@ -28,6 +28,10 @@ jobs:
       - name: Run Karate Tests
         run: mvn clean test -Dtest=ChallengeTest
         continue-on-error: true
+        
+      - name: Fix GitHub Pages 404 (Redirect to Karate Summary)
+        run: echo '<meta http-equiv="refresh" content="0; url=karate-summary.html" />' > target/karate-reports/index.html
+        if: always()
       
       - name: Deploy Karate Reports to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
