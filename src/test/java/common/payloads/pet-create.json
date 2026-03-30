@@ -1,0 +1,6 @@
+{
+  "id": 1234567890,
+  "name": "TestPet_1234567890",
+  "status": "available",
+  "photoUrls": ["https://example.com/photo.jpg"]
+}

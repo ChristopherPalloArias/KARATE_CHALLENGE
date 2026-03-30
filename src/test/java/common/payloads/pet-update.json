@@ -1,0 +1,6 @@
+{
+  "id": 1234567890,
+  "name": "UpdatedPet_1234567890",
+  "status": "sold",
+  "photoUrls": ["https://example.com/photo.jpg"]
+}
