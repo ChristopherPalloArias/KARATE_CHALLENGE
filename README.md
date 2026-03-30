@@ -1,11 +1,13 @@
 <div align="center">
   
-# 🚀 KARATE_API_AUTOMATION
-### Taller 7: Maestría en Automatización
+# 🐾 PETSTORE_API_LIFECYCLE
 
-**Autor:** Christopher Pallo  
-**Entregable:** Práctica Karate (Ejercicio 2)  
-**Proyecto:** Automatización de Pruebas API End-to-End usando el framework **Karate DSL** orientado a flujos secuenciales y dependencias de datos mediante **IA y Spec-Driven Development**.
+### Reto Técnico: Automatización API con Karate
+
+**Autor:** Christopher Ismael Pallo Arias  
+**Correo:** christopher.pallo@sofka.com.co  
+**Proyecto:** Validación del ciclo de vida completo de una mascota en PetStore usando Karate  
+**Objetivo:** Automatizar el flujo solicitado del reto sobre la API pública `PetStore`
 
 <br />
 
@@ -20,11 +22,6 @@
   <img src="https://skillicons.dev/icons?i=java,maven,github" alt="Automation Stack" />
 </a>
 
-**Application Under Test (PetStore API)**
-<br />
-<a href="https://skillicons.dev">
-  <img src="https://skillicons.dev/icons?i=nodejs,express,swagger" alt="App Stack" />
-</a>
 
 </div>
 
