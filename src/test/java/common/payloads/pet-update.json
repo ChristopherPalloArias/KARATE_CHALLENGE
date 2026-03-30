@@ -1,6 +1,6 @@
 {
-  "id": 1234567890,
-  "name": "UpdatedPet_1234567890",
+  "id": "#(petId)",
+  "name": "#(petName)",
   "status": "sold",
-  "photoUrls": ["https://example.com/photo.jpg"]
+  "photoUrls": "#(photoUrls)"
 }

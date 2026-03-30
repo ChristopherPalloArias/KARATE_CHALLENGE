@@ -18,18 +18,18 @@ Feature: PetStore API — Pet Lifecycle Automation
     # --- Step 1: Generate unique, collision-safe petId (8-digit safe integer) ---
     * def tsStr = java.lang.Long.toString(java.lang.System.currentTimeMillis())
     * def petId = java.lang.Integer.parseInt(tsStr.substring(tsStr.length() - 8))
-    * def initialPetName = 'TestPet_' + tsStr
-    * def updatedPetName = 'UpdatedPet_' + tsStr
-    * karate.log('INFO: Using petId=' + petId + ', name=' + initialPetName)
+    * def petName = 'TestPet_' + tsStr
+    * karate.log('INFO: Using petId=' + petId + ', name=' + petName)
 
     # --- Step 2: Create the pet (FR-01) ---
     Given path '/pet'
-    And request { id: '#(petId)', name: '#(initialPetName)', status: 'available', photoUrls: '#(photoUrls)' }
+    * def requestPayload = read('classpath:common/payloads/pet-create.json')
+    And request requestPayload
     When method POST
     Then status 200
     And assert response.id != null
     And match response.id == petId
-    And match response.name == initialPetName
+    And match response.name == petName
     And match response.status == 'available'
     * karate.log('INFO: Pet created with petId=' + response.id)
 
@@ -38,19 +38,21 @@ Feature: PetStore API — Pet Lifecycle Automation
     When method GET
     Then status 200
     And match response.id == petId
-    And match response.name == initialPetName
+    And match response.name == petName
     And match response.status == 'available'
     * karate.log('INFO: Pet retrieved by ID successfully')
 
     # --- Step 4: Update pet name and status to sold (FR-03) ---
     Given path '/pet'
-    And request { id: '#(petId)', name: '#(updatedPetName)', status: 'sold', photoUrls: '#(photoUrls)' }
+    * def petName = 'UpdatedPet_' + tsStr
+    * def updatePayload = read('classpath:common/payloads/pet-update.json')
+    And request updatePayload
     When method PUT
     Then status 200
     And match response.id == petId
-    And match response.name == updatedPetName
+    And match response.name == petName
     And match response.status == 'sold'
-    * karate.log('INFO: Pet updated - name=' + updatedPetName + ', status=sold')
+    * karate.log('INFO: Pet updated - name=' + petName + ', status=sold')
 
     # --- Step 5: Retrieve pets by status=sold and verify presence (FR-04) ---
     Given path '/pet/findByStatus'
@@ -63,7 +65,7 @@ Feature: PetStore API — Pet Lifecycle Automation
     * def foundPet = foundPets.length > 0 ? foundPets[0] : null
     And assert foundPet != null
     And match foundPet.id == petId
-    And match foundPet.name == updatedPetName
+    And match foundPet.name == petName
     And match foundPet.status == 'sold'
     * karate.log('INFO: Pet found in sold results - ID=' + foundPet.id + ', Name=' + foundPet.name + ', Status=' + foundPet.status)
 
