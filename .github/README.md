@@ -141,6 +141,19 @@ Inyectadas automáticamente por Copilot cuando el archivo activo coincide:
 
 ---
 
+## Instructions automáticas (sin intervención manual)
+
+Inyectadas automáticamente por Copilot cuando el archivo activo coincide:
+
+| Archivo activo | Instructions aplicadas |
+|---|---|
+| `src/test/java/**/*.feature` | `instructions/karate.instructions.md` |
+| `src/test/java/**/*.java` | `instructions/karate.instructions.md` |
+
+> Si el framework asume una convención de nombramiento diferente, ajusta los patrones `applyTo:` de cada archivo de `.github/instructions`.
+
+---
+
 ## Lineamientos de referencia
 
 Cargados automáticamente por los agentes:

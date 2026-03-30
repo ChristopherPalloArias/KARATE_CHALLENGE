@@ -49,6 +49,11 @@ Este repositorio sigue el flujo **ASDD**: toda funcionalidad nueva se ejecuta en
 | `/automation-flow-proposer` | QA Agent | `.github/skills/automation-flow-proposer/SKILL.md` |
 | `/performance-analyzer` | QA Agent | `.github/skills/performance-analyzer/SKILL.md` |
 
+### Instructions (path-scoped)
+| Scope | Ruta | Se aplica a |
+|---|---|---|
+| Karate Automation | `.github/instructions/karate.instructions.md` | `src/test/java/**/*.feature` · `src/test/java/**/*.java` |
+
 ### Lineamientos y Contexto
 | Documento | Ruta |
 |---|---|
