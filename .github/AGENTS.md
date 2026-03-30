@@ -18,12 +18,12 @@ This file defines general guidance for all AI agents working in this repository,
 spec-generator    → /generate-spec      → .github/specs/<feature>.spec.md
 
 [FASE 2 — Secuencial]
-qa-agent          → /gherkin-case-generator, /risk-identifier, automatización Karate
+qa-agent          → /gherkin-case-generator, /risk-identifier
 
-[FASE 4 — Secuencial]
-qa-agent          → /gherkin-case-generator, /risk-identifier, …
+[FASE 3 — Secuencial]
+qa-agent          → /implement-karate-assets, /implement-karate-feature
 
-[FASE 3 — Opcional]
+[FASE 4 — Opcional]
 documentation-agent → README, API docs, ADRs
 ```
 
@@ -44,6 +44,12 @@ Skills are portable instruction sets invokable as `/command` in Copilot Chat. Th
 | risk-identifier | `/risk-identifier` | Clasifica riesgos con Regla ASD (Alto/Medio/Bajo) |
 | automation-flow-proposer | `/automation-flow-proposer` | Propone flujos a automatizar y framework |
 | performance-analyzer | `/performance-analyzer` | Planifica y analiza pruebas de performance |
+
+### Automatización Karate
+| Skill | Slash Command | Descripción |
+|-------|---------------|-------------|
+| implement-karate-assets | `/implement-karate-assets` | Genera assets (schema/payloads) reusables desde la spec |
+| implement-karate-feature | `/implement-karate-feature` | Genera el archivo .feature de Karate para la spec |
 
 ## Lineamientos y Contexto
 
