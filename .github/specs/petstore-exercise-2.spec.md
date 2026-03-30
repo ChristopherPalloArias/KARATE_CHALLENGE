@@ -1,3 +1,4 @@
+````markdown
 ---
 id: SPEC-001
 status: DRAFT
@@ -7,405 +8,441 @@ updated: 2026-03-30
 author: spec-generator
 version: "1.0"
 related-specs: []
+tags:
+  - karate
+  - api
+  - petstore
+  - exercise-2
+  - pet-lifecycle
 ---
 
 # Spec: PetStore API Automation Exercise 2
 
-> **Estado:** `DRAFT` → aprobar con `status: APPROVED` antes de iniciar implementación.
-> **Ciclo de vida:** DRAFT → APPROVED → IN_PROGRESS → IMPLEMENTED → DEPRECATED
+> **Estado:** `DRAFT`  
+> Esta spec debe pasar a `APPROVED` antes de iniciar implementación.
 
 ---
 
 ## 1. REQUERIMIENTOS
 
-### Descripción
+### 1.1 Descripción
 
-Automatizar el flujo completo de un recurso Pet en la API PetStore pública: creación de una mascota, verificación de su existencia por ID, actualización de su nombre y estado a "sold", y consulta de mascotas filtradas por estado. La solución debe ser reproducible y documentar hallazgos y conclusiones.
+Automatizar un flujo secuencial sobre el recurso **Pet** en la API pública de PetStore para validar lo siguiente:
 
-### Requerimiento de Negocio
+1. agregar una mascota a la tienda  
+2. consultar la mascota ingresada previamente por ID  
+3. actualizar el nombre de la mascota y cambiar su estado a `sold`  
+4. consultar la mascota modificada por estado  
 
-El requerimiento original del usuario especifica:
+La solución debe ser reproducible, ejecutable con Karate y entregarse en un repositorio GitHub público con documentación de ejecución, conclusiones y evidencia de ejecución.
 
-> "Automate the requested PetStore API flow to validate the lifecycle of a pet resource through creation, retrieval by ID, update of name and status, and retrieval by status. The resulting solution must be reproducible and delivered in a public GitHub repository, including the automation assets, execution instructions, findings, and generated reports."
+---
 
-**Endpoints en Scope:**
-1. `POST /pet` — Agregar una mascota al store.
-2. `GET /pet/{petId}` — Recuperar la mascota por ID.
-3. `PUT /pet` — Actualizar nombre y estado de la mascota a `sold`.
-4. `GET /pet/findByStatus` — Recuperar mascotas filtradas por estado.
+### 1.2 Requerimiento de negocio
 
-**Base URL:** `https://petstore.swagger.io/v2`
+El objetivo del ejercicio es validar el ciclo de vida básico de una mascota en la API PetStore mediante una automatización reproducible y defendible.
 
-### Historias de Usuario
+El alcance funcional obligatorio del reto es:
 
-#### HU-01: Crear una nueva mascota en el store
+- `POST /pet` para agregar una mascota
+- `GET /pet/{petId}` para consultar la mascota creada
+- `PUT /pet` para actualizar el nombre y el estado de la misma mascota
+- `GET /pet/findByStatus` para consultar mascotas por estado y confirmar la presencia de la mascota actualizada
 
-```
-Como:        Tester de automatización
-Quiero:      Crear una nueva mascota en la API PetStore
-Para:        Validar el flujo de creación y capturar el petId para pruebas posteriores
+El flujo debe depender del **mismo `petId`** desde el alta hasta la consulta final por estado.
 
-Prioridad:   Alta
-Estimación:  S
-Dependencias: Ninguna
-Capa:        API / Automatización
-```
+**Base URL objetivo:** `https://petstore.swagger.io/v2`
 
-#### Criterios de Aceptación — HU-01
+**Entregables obligatorios del reto:**
 
-**Happy Path**
+- automatización reproducible
+- reportes de ejecución
+- `readme.txt`
+- `conclusiones.txt`
+- repositorio GitHub público
+
+---
+
+### 1.3 Historias de usuario
+
+#### HU-01 — Crear mascota
+
+**Como** tester de automatización  
+**Quiero** crear una mascota en la API PetStore  
+**Para** capturar su identificador y reutilizarlo en los pasos posteriores del flujo
+
+- **Prioridad:** Alta
+- **Dependencias:** Ninguna
+- **Capa:** API / Automatización
+
+#### HU-02 — Consultar mascota por ID
+
+**Como** tester de automatización  
+**Quiero** consultar la mascota creada usando su ID  
+**Para** verificar que la creación fue persistida correctamente
+
+- **Prioridad:** Alta
+- **Dependencias:** HU-01
+- **Capa:** API / Automatización
+
+#### HU-03 — Actualizar nombre y estado
+
+**Como** tester de automatización  
+**Quiero** actualizar el nombre de la mascota y cambiar su estado a `sold`  
+**Para** verificar que los cambios quedan reflejados en el recurso
+
+- **Prioridad:** Alta
+- **Dependencias:** HU-01, HU-02
+- **Capa:** API / Automatización
+
+#### HU-04 — Consultar mascota por estado
+
+**Como** tester de automatización  
+**Quiero** consultar mascotas filtradas por estado `sold`  
+**Para** verificar que la mascota actualizada aparece dentro del resultado filtrado
+
+- **Prioridad:** Alta
+- **Dependencias:** HU-03
+- **Capa:** API / Automatización
+
+---
+
+### 1.4 Criterios de aceptación en formato Gherkin
+
+#### HU-01 — Crear mascota
+
 ```gherkin
-CRITERIO-1.1: Crear mascota exitosamente
-  Dado que:   El endpoint POST /pet está disponible
-  Cuando:     Se envía un request con un payload válido de mascota
-              (id, name, status, photoUrls)
-  Entonces:   El servidor retorna un status 200
-              Y el response contiene el petId asignado/enviado
-              Y el response contiene el nombre enviado
-              Y el response contiene el status enviado
+Feature: Crear una mascota en PetStore
+
+  Scenario: Crear una mascota y capturar su identificador
+    Given que la API pública de PetStore está disponible
+    And que existe un payload válido para crear una mascota
+    When se envía la solicitud para agregar la mascota
+    Then la respuesta indica creación exitosa o aceptación exitosa según comportamiento observado durante la implementación
+    And la respuesta contiene el identificador de la mascota
+    And la respuesta contiene datos consistentes con la mascota enviada
+    And el petId queda disponible para reutilizarse en los pasos siguientes
+````
+
+#### HU-02 — Consultar mascota por ID
+
+```gherkin
+Feature: Consultar una mascota existente por ID
+
+  Scenario: Consultar la mascota creada previamente
+    Given que existe un petId obtenido en el paso de creación
+    When se envía la solicitud de consulta por ID
+    Then la respuesta indica consulta exitosa según comportamiento observado durante la implementación
+    And la respuesta corresponde al mismo petId
+    And la respuesta conserva consistencia con los datos de la mascota creada
 ```
 
-**Edge Case**
+#### HU-03 — Actualizar nombre y estado
+
 ```gherkin
-CRITERIO-1.2: Capturar dinámicamente el petId para reutilización
-  Dado que:    La mascota fue creada exitosamente
-  Cuando:      El response contiene el atributo 'id'
-  Entonces:    El petId se captura para usarse en los pasos siguientes
+Feature: Actualizar nombre y estado de una mascota
+
+  Scenario: Actualizar la misma mascota a estado sold
+    Given que existe una mascota previamente creada e identificada por su petId
+    And que se dispone de un nuevo nombre para esa misma mascota
+    When se envía la solicitud de actualización usando el mismo petId
+    Then la respuesta indica actualización exitosa según comportamiento observado durante la implementación
+    And la respuesta refleja el nombre actualizado
+    And la respuesta refleja el estado sold
+```
+
+#### HU-04 — Consultar por estado
+
+```gherkin
+Feature: Consultar mascotas por estado
+
+  Scenario: Verificar la presencia de la mascota actualizada en el filtro por sold
+    Given que la mascota ya fue actualizada al estado sold
+    When se envía la solicitud para consultar mascotas con status sold
+    Then la respuesta indica consulta exitosa según comportamiento observado durante la implementación
+    And la respuesta contiene una colección de mascotas o una estructura equivalente a validar durante la implementación
+    And la mascota actualizada está presente en el resultado
+    And el registro encontrado conserva el mismo petId
+    And el registro encontrado refleja el nombre actualizado y el estado sold
 ```
 
 ---
 
-#### HU-02: Recuperar una mascota existente por ID
+### 1.5 Reglas de negocio
 
-```
-Como:        Tester de automatización
-Quiero:      Recuperar la mascota creada usando su ID
-Para:        Validar que la mascota se creó correctamente y existe en el store
-
-Prioridad:   Alta
-Estimación:  S
-Dependencias: HU-01
-Capa:        API / Automatización
-```
-
-#### Criterios de Aceptación — HU-02
-
-**Happy Path**
-```gherkin
-CRITERIO-2.1: Recuperar mascota por ID exitosamente
-  Dado que:    La mascota fue creada en HU-01 con petId válido
-  Cuando:      Se envía GET /pet/{petId}
-  Entonces:    El servidor retorna status 200
-               Y el response contiene el petId solicitado
-               Y el response contiene los mismos datos de la mascota creada
-               Y se verifica la consistencia de nombre y estado
-```
-
-**Error Path**
-```gherkin
-CRITERIO-2.2: Manejo de petId inválido
-  Dado que:    Se intenta recuperar una mascota con ID inexistente
-  Cuando:      Se envía GET /pet/{petId_invalido}
-  Entonces:    El servidor retorna status 404
-```
-
----
-
-#### HU-03: Actualizar nombre y estado de la mascota
-
-```
-Como:        Tester de automatización
-Quiero:      Actualizar el nombre y el estado de la mascota a 'sold'
-Para:        Validar que los cambios se persisten correctamente en el store
-
-Prioridad:   Alta
-Estimación:  M
-Dependencias: HU-01, HU-02
-Capa:        API / Automatización
-```
-
-#### Criterios de Aceptación — HU-03
-
-**Happy Path**
-```gherkin
-CRITERIO-3.1: Actualizar mascota exitosamente
-  Dado que:    La mascota existe en el store con petId conocido
-  Cuando:      Se envía PUT /pet con:
-               - id igual al petId creado
-               - name actualizado
-               - status = 'sold'
-  Entonces:    El servidor retorna status 200
-               Y el response refleja el nombre actualizado
-               Y el response refleja status = 'sold'
-```
-
-**Validation**
-```gherkin
-CRITERIO-3.2: Estado actualizado a 'sold' es verificable
-  Dado que:    La mascota fue actualizada exitosamente
-  Cuando:      Se negocia el response del PUT
-  Entonces:    El status en el response es exactamente 'sold'
-```
-
----
-
-#### HU-04: Recuperar mascotas filtradas por estado 'sold'
-
-```
-Como:        Tester de automatización
-Quiero:      Recuperar todas las mascotas con estado 'sold'
-Para:        Validar que la mascota actualizada aparece en los resultados filtrados
-
-Prioridad:   Alta
-Estimación:  S
-Dependencias: HU-03
-Capa:        API / Automatización
-```
-
-#### Criterios de Aceptación — HU-04
-
-**Happy Path**
-```gherkin
-CRITERIO-4.1: Recuperar mascotas por status exitosamente
-  Dado que:    La mascota fue actualizada a status 'sold'
-  Cuando:      Se envía GET /pet/findByStatus?status=sold
-  Entonces:    El servidor retorna status 200
-               Y el response es un array de mascotas
-               Y la mascota actualizada existe en el array
-               Y se verifica que el petId figura en los resultados
-               Y todos los items en el array tienen status = 'sold'
-```
-
-**Validation**
-```gherkin
-CRITERIO-4.2: Consistencia de datos en resultado filtrado
-  Dado que:    Se recuperó la lista de mascotas con status 'sold'
-  Cuando:      Se busca el petId creado en los resultados
-  Entonces:    El item encontrado contiene el nombre actualizado
-               Y el item contiene el status 'sold'
-```
-
----
-
-### Reglas de Negocio
-
-1. **Identificador Único:** El `petId` es asignado por el servidor o enviado en el request y se reutiliza en todos los pasos posteriores.
-2. **Estados Válidos:** El estado debe ser válido según la API PetStore (available, pending, sold).
-3. **Actualización Atómica:** Una actualización de mascota cambia todos los campos en una sola solicitud.
-4. **Filtrado por Status:** El endpoint `/pet/findByStatus` retorna un array de mascotas cuyo status coincide exactamente con el parámetro query.
-5. **Ambiente Compartido:** La API es pública y compartida; se deben usar identificadores únicos o dinámicos para evitar colisiones.
-6. **Headers Obligatorios:** 
-   - `Content-Type: application/json` en requests con payload (POST, PUT)
-   - `Accept: application/json` en todos los requests
+1. El flujo es **secuencial** y depende del mismo `petId`.
+2. La mascota consultada por ID debe ser la misma que fue creada previamente.
+3. La mascota actualizada debe conservar el mismo `petId`.
+4. El nombre y el estado deben actualizarse en el mismo flujo requerido por el reto.
+5. El estado final requerido por el ejercicio es `sold`.
+6. La validación de la búsqueda por estado debe confirmar la **presencia** de la mascota actualizada dentro del resultado, no asumir que será el único registro devuelto.
+7. No se debe asumir un paso de limpieza por `DELETE`, porque no forma parte del alcance solicitado.
+8. La estrategia de datos debe considerar que el ambiente es público y compartido.
+9. Cualquier status code, estructura exacta de payload o contrato de respuesta no confirmado por el requirement debe tratarse como **to validate during implementation**.
+10. La solución final debe incluir `readme.txt`, `conclusiones.txt`, reportes y repositorio público.
 
 ---
 
 ## 2. DISEÑO API
 
-### API Endpoints
+### 2.1 Resumen de endpoints en alcance
 
-#### FR-01: POST /pet — Crear mascota
-
-- **Descripción:** Agrega una nueva mascota al store.
-- **Auth requerida:** No
-- **Request Headers:**
-  ```
-  Content-Type: application/json
-  Accept: application/json
-  ```
-- **Request Body:**
-  ```json
-  {
-    "id": 12345,
-    "name": "UniqueTestPet_2026_03_30_001",
-    "status": "available",
-    "photoUrls": ["https://example.com/photo.jpg"]
-  }
-  ```
-- **Response 200:**
-  ```json
-  {
-    "id": 12345,
-    "name": "UniqueTestPet_2026_03_30_001",
-    "photoUrls": ["https://example.com/photo.jpg"],
-    "status": "available"
-  }
-  ```
-- **Notas:** El `id` puede ser enviado en el request o asignado por el servidor. Se captura para los pasos posteriores.
+| ID    | Método | Endpoint            | Propósito                                      | Dependencia  |
+| ----- | ------ | ------------------- | ---------------------------------------------- | ------------ |
+| FR-01 | POST   | `/pet`              | Agregar una mascota                            | Ninguna      |
+| FR-02 | GET    | `/pet/{petId}`      | Consultar mascota por ID                       | FR-01        |
+| FR-03 | PUT    | `/pet`              | Actualizar nombre y estado de la misma mascota | FR-01, FR-02 |
+| FR-04 | GET    | `/pet/findByStatus` | Consultar mascotas por estado                  | FR-03        |
 
 ---
 
-#### FR-02: GET /pet/{petId} — Recuperar mascota por ID
+### 2.2 Base URL y configuración
 
-- **Descripción:** Recupera los detalles completos de una mascota existente.
-- **Auth requerida:** No
-- **Path Parameters:**
-  - `petId` (integer): ID único de la mascota
-- **Request Headers:**
-  ```
-  Accept: application/json
-  ```
-- **Response 200:**
-  ```json
-  {
-    "id": 12345,
-    "name": "UniqueTestPet_2026_03_30_001",
-    "photoUrls": ["https://example.com/photo.jpg"],
-    "status": "available"
-  }
-  ```
-- **Response 404:** No encontrado (petId inexistente)
-- **Notas:** El response debe reflejar los datos creados en FR-01.
+* **Base URL objetivo:** `https://petstore.swagger.io/v2`
+* **Fuente de configuración esperada:** propiedad configurable en tiempo de ejecución
+* **Variable de configuración esperada:** `baseUrl`
+* **Autenticación:** [Not provided]
+* **Tipo de API:** REST
+* **Ambiente:** público y compartido
 
 ---
 
-#### FR-03: PUT /pet — Actualizar mascota
+### 2.3 Diseño por endpoint
 
-- **Descripción:** Actualiza una mascota existente, incluyendo cambio de nombre y estado.
-- **Auth requerida:** No
-- **Request Headers:**
-  ```
-  Content-Type: application/json
-  Accept: application/json
-  ```
-- **Request Body:**
-  ```json
-  {
-    "id": 12345,
-    "name": "UpdatedPetName_2026_03_30",
-    "photoUrls": ["https://example.com/photo.jpg"],
-    "status": "sold"
-  }
-  ```
-- **Response 200:**
-  ```json
-  {
-    "id": 12345,
-    "name": "UpdatedPetName_2026_03_30",
-    "photoUrls": ["https://example.com/photo.jpg"],
-    "status": "sold"
-  }
-  ```
-- **Notas:** El `id` debe coincidir con el petId de la mascota a actualizar. El status debe ser exactamente "sold".
+#### FR-01 — POST `/pet`
+
+* **Objetivo:** agregar una mascota a la tienda
+* **Precondición:** ninguna
+* **Headers esperados:**
+
+  * `Content-Type: application/json`
+  * `Accept: application/json`
+* **Path params:** ninguno
+* **Query params:** ninguno
+* **Request body esperado:** payload válido para creación de mascota
+
+  * debe contener la información necesaria para:
+
+    * identificar la mascota en el flujo
+    * consultarla luego por ID
+    * actualizarla posteriormente
+  * estructura exacta: **to validate during implementation**
+* **Response esperado:** respuesta consistente con la creación o aceptación de la mascota
+* **Success status code:** **to validate during implementation**
+* **Error status code:** [Not provided]
+* **Validaciones mínimas:**
+
+  * se obtiene un `petId`
+  * la respuesta mantiene consistencia con la mascota creada
+* **Observaciones:**
+
+  * el `petId` debe conservarse para los pasos posteriores
+  * el payload debe usar datos dinámicos para reducir colisiones
+
+#### FR-02 — GET `/pet/{petId}`
+
+* **Objetivo:** consultar la mascota creada previamente
+* **Precondición:** FR-01 ejecutado con éxito funcional
+* **Headers esperados:**
+
+  * `Accept: application/json`
+* **Path params:**
+
+  * `petId`
+* **Query params:** ninguno
+* **Request body:** ninguno
+* **Response esperado:** respuesta consistente con la mascota creada en FR-01
+* **Success status code:** **to validate during implementation**
+* **Error status code:** [Not provided]
+* **Validaciones mínimas:**
+
+  * el `petId` retornado coincide con el usado en la consulta
+  * la respuesta conserva consistencia con los datos de creación
+* **Observaciones:**
+
+  * no se debe introducir aquí un caso negativo obligatorio porque no forma parte del alcance mínimo pedido
+
+#### FR-03 — PUT `/pet`
+
+* **Objetivo:** actualizar el nombre de la mascota y cambiar su estado a `sold`
+* **Precondición:** la mascota existe y su `petId` ya fue capturado
+* **Headers esperados:**
+
+  * `Content-Type: application/json`
+  * `Accept: application/json`
+* **Path params:** ninguno
+* **Query params:** ninguno
+* **Request body esperado:** payload válido de actualización para la misma mascota
+
+  * debe reutilizar el mismo `petId`
+  * debe incluir el nuevo nombre
+  * debe incluir el estado final `sold`
+  * estructura exacta: **to validate during implementation**
+* **Response esperado:** respuesta consistente con el recurso actualizado
+* **Success status code:** **to validate during implementation**
+* **Error status code:** [Not provided]
+* **Validaciones mínimas:**
+
+  * el `petId` sigue siendo el mismo
+  * el nombre queda actualizado
+  * el estado queda en `sold`
+
+#### FR-04 — GET `/pet/findByStatus`
+
+* **Objetivo:** consultar mascotas por estado y confirmar la presencia de la mascota actualizada
+* **Precondición:** FR-03 ejecutado con éxito funcional
+* **Headers esperados:**
+
+  * `Accept: application/json`
+* **Path params:** ninguno
+* **Query params:**
+
+  * `status=sold`
+* **Request body:** ninguno
+* **Response esperado:** conjunto o colección de registros filtrados por estado, a validar durante implementación
+* **Success status code:** **to validate during implementation**
+* **Error status code:** [Not provided]
+* **Validaciones mínimas:**
+
+  * la respuesta contiene el `petId` de la mascota actualizada
+  * el registro encontrado refleja el nombre actualizado
+  * el registro encontrado refleja el estado `sold`
+* **Observaciones:**
+
+  * no se debe asumir que la respuesta contendrá solo una mascota
+  * la validación clave es la **presencia del registro esperado** dentro del resultado
 
 ---
 
-#### FR-04: GET /pet/findByStatus — Recuperar mascotas por estado
+### 2.4 Dependencias del flujo
 
-- **Descripción:** Recupera un listado de mascotas filtradas por status.
-- **Auth requerida:** No
-- **Query Parameters:**
-  - `status` (string): Estado a filtrar (available, pending, sold)
-- **Request Headers:**
-  ```
-  Accept: application/json
-  ```
-- **Response 200:**
-  ```json
-  [
-    {
-      "id": 12345,
-      "name": "UpdatedPetName_2026_03_30",
-      "photoUrls": ["https://example.com/photo.jpg"],
-      "status": "sold"
-    },
-    {
-      "id": 67890,
-      "name": "AnotherPet",
-      "photoUrls": ["https://example.com/photo2.jpg"],
-      "status": "sold"
-    }
-  ]
-  ```
-- **Notas:** El response es un array. Todos los items deben tener el status solicitado. La mascota actualizada en FR-03 debe estar presente.
+1. **FR-01** genera o confirma el `petId` a usar.
+2. **FR-02** consulta el mismo `petId` obtenido en FR-01.
+3. **FR-03** actualiza el mismo `petId` usando nuevo nombre y estado `sold`.
+4. **FR-04** confirma que el mismo `petId` aparece en la consulta por `status=sold`.
+
+**Orden obligatorio del flujo:**
+
+`FR-01 -> FR-02 -> FR-03 -> FR-04`
 
 ---
 
-### Arquitectura y Dependencias
+### 2.5 Request / response esperados
 
-- **Paquetes nuevos requeridos:** Ninguno (Karate framework ya incluido)
-- **Servicios externos:** PetStore API pública en `https://petstore.swagger.io/v2`
-- **Impacto en punto de entrada:** Se registra un runner de Karate en `src/test/java/runners/` que ejecuta el feature file.
-- **Configuración Global:** El `baseUrl` se configura en `karate-config.js` y se pasa como parámetro en tiempo de ejecución.
+#### Lineamientos de request
 
-### Estructura de Código
+* Los payloads deben ser válidos para el endpoint objetivo.
+* Los datos deben ser dinámicos cuando ayuden a evitar colisiones en ambiente compartido.
+* El mismo `petId` debe viajar a través de todo el flujo.
+* La actualización debe cambiar únicamente lo requerido por el ejercicio:
 
-```
-src/test/java/
-├── api/
-│   └── petstore/
-│       └── petstore-exercise-2.feature    (Feature file con 4 escenarios)
-├── common/
-│   ├── payloads/
-│   │   ├── pet-create.json                (Request para FR-01)
-│   │   └── pet-update.json                (Request para FR-03)
-│   └── schemas/
-│       ├── pet-response.json              (Schema para FR-01, FR-02, FR-03)
-│       └── pet-list.json                  (Schema para FR-04)
-└── runners/
-    └── ChallengeTest.java                 (Ya existe, ejecuta todos los features)
-```
+  * nombre
+  * estado a `sold`
 
-### Notas de Implementación
+#### Lineamientos de response
 
-1. **Generación Dinámica de petId:** Use timestamps o UUIDs para evitar colisiones en el ambiente compartido.
-2. **Captura de Variables:** Use `* def petId = response.id` después de FR-01 para reutilizarla en pasos posteriores.
-3. **Headers Reutilizables:** Configure headers comunes en el Background del feature.
-4. **Validación de Schema:** Use `match response == read('classpath:common/schemas/...')` para validaciones robustas.
-5. **Orden Secuencial:** Los 4 escenarios deben ejecutarse en orden (HU-01 → HU-02 → HU-03 → HU-04) en un único feature o en escenarios separados con datos compartidos a través de variables de contexto.
+* La respuesta de cada paso debe demostrar consistencia funcional con la operación realizada.
+* No se deben fijar contracts estrictos no confirmados por el requirement.
+* Cualquier validación adicional de schema exacto debe tratarse como **candidate** o **to validate during implementation**.
+
+---
+
+### 2.6 Notas de implementación
+
+1. La implementación preferida es con **Karate**.
+2. `baseUrl` debe ser configurable por propiedad.
+3. Se deben usar datos dinámicos para reducir colisiones en el entorno público.
+4. La automatización debe centrarse solo en el flujo obligatorio del reto.
+5. No se debe implementar `DELETE` como parte del flujo requerido.
+6. La validación final en `findByStatus` debe buscar la mascota dentro del resultado y no asumir unicidad del listado.
+7. Los reportes deben quedar accesibles en `target/karate-reports/`.
+8. Los archivos mínimos esperados en la siguiente fase de implementación son:
+
+   * `src/test/java/karate-config.js`
+   * `src/test/java/runners/ChallengeTest.java`
+   * `src/test/java/petstore/petstore-pet-lifecycle.feature`
+   * `readme.txt`
+   * `conclusiones.txt`
 
 ---
 
 ## 3. LISTA DE TAREAS
 
-> Checklist accionable para la automatización en Karate. Marcar cada ítem (`[x]`) al completarlo.
+### 3.1 Tareas de QA
 
-### QA y Gherkin
+* [ ] Revisar que el requirement y la spec mantengan el mismo alcance funcional
+* [ ] Confirmar que el flujo sea estrictamente secuencial y dependiente del mismo `petId`
+* [ ] Confirmar que no se agregaron endpoints fuera del alcance
+* [ ] Confirmar que no se asumió cleanup por delete
+* [ ] Confirmar que la validación por status se basa en presencia dentro del resultado
+* [ ] Tratar cualquier status code no confirmado como **to validate during implementation**
+* [ ] Ejecutar `/gherkin-case-generator petstore-exercise-2`
+* [ ] Ejecutar `/risk-identifier petstore-exercise-2`
 
-- [ ] Ejecutar skill `/gherkin-case-generator` → generar escenarios detallados para CRITERIO-1.1, 1.2, 2.1, 2.2, 3.1, 3.2, 4.1, 4.2
-- [ ] Ejecutar skill `/risk-identifier` → clasificación ASD de riesgos para el flujo PetStore
-- [ ] Revisar criterios de aceptación contra datos de prueba dinámicos
-- [ ] Validar que la estrategia de datos evita colisiones en ambiente compartido
+### 3.2 Tareas de automatización Karate
 
-### Automatización Karate
+* [ ] Crear `src/test/java/karate-config.js`
+* [ ] Crear `src/test/java/runners/ChallengeTest.java`
+* [ ] Crear `src/test/java/petstore/petstore-pet-lifecycle.feature`
+* [ ] Implementar FR-01 para agregar mascota
+* [ ] Capturar y reutilizar el mismo `petId`
+* [ ] Implementar FR-02 para consultar por ID
+* [ ] Implementar FR-03 para actualizar nombre y estado a `sold`
+* [ ] Implementar FR-04 para consultar por `status=sold`
+* [ ] Validar que la mascota actualizada esté presente en el resultado del filtro
+* [ ] Parametrizar `baseUrl`
+* [ ] Usar datos dinámicos para evitar colisiones
+* [ ] Generar reportes en `target/karate-reports/`
 
-- [ ] Crear archivo `src/test/java/api/petstore/petstore-exercise-2.feature` con Background configurado
-- [ ] Implementar FR-01 (POST /pet): escenario feliz + captura de petId
-- [ ] Implementar FR-02 (GET /pet/{petId}): validación de consistencia
-- [ ] Implementar FR-03 (PUT /pet): actualización de nombre y status
-- [ ] Implementar FR-04 (GET /pet/findByStatus): validación de presencia en resultados filtrados
-- [ ] Crear payload `common/payloads/pet-create.json` con estructura válida
-- [ ] Crear payload `common/payloads/pet-update.json` con nombre y status actualizado
-- [ ] Crear schema `common/schemas/pet-response.json` para validación de response individual
-- [ ] Crear schema `common/schemas/pet-list.json` para validación de array en FR-04
-- [ ] Incorporar aserciones precisas (codes HTTP 200, arrays, campos obligatorios)
-- [ ] Validar flujo end-to-end: crear → leer → actualizar → filtrar
-- [ ] Ejecutar tests localmente contra base URL configurada
+### 3.3 Tareas de documentación
 
-### Documentación y Entrega
+* [ ] Crear `readme.txt` con pasos de ejecución
+* [ ] Incluir prerequisitos de ejecución
+* [ ] Incluir comando de ejecución del proyecto
+* [ ] Indicar la ubicación de los reportes
+* [ ] Crear `conclusiones.txt` con hallazgos y conclusiones
+* [ ] Preparar el contenido del repositorio para revisión pública
 
-- [ ] Crear archivo `readme.txt` con instrucciones step-by-step de ejecución:
-  - Requisitos (Maven, Java)
-  - Cómo clonar el repositorio
-  - Cómo ejecutar los tests (comando Maven o Karate CLI)
-  - Dónde encontrar los reportes (target/karate-reports/)
-- [ ] Crear archivo `conclusiones.txt` con hallazgos:
-  - Resumen del flujo probado
-  - Endpoints validados
-  - Datos dinámicos usados y estrategia de colisión
-  - Observaciones sobre la API PetStore
-  - Mejoras o limitaciones encontradas
-- [ ] Confirmar que el repositorio es público en GitHub
-- [ ] Verificar que todos los assets son reproducibles sin hardcoding
+### 3.4 Tareas de ejecución y validación
 
-### QA Final
-
-- [ ] Ejecutar skill `/gherkin-case-generator` → casos negativos opcionales (invalid ID, malformed payloads)
-- [ ] Revisar cobertura de tests contra todos los criterios de aceptación
-- [ ] Validar que todas las reglas de negocio están cubiertas
-- [ ] Actualizar estado spec: `status: APPROVED` (una vez validado)
-- [ ] Actualizar estado spec a `status: IMPLEMENTED` al completar la automatización
+* [ ] Ejecutar la suite localmente
+* [ ] Confirmar que el flujo completo se ejecuta sin romper la secuencia de datos
+* [ ] Capturar evidencia de requests, responses y validaciones
+* [ ] Confirmar que los entregables requeridos están incluidos
+* [ ] Cambiar `status: DRAFT` a `status: APPROVED` cuando la spec quede validada
+* [ ] Continuar con implementación una vez aprobada la spec
+* [ ] Publicar la solución final en un repositorio GitHub público
 
 ---
 
-**Fin de la Especificación SPEC-001**
+## 4. ENTREGABLES
+
+Los entregables esperados para el reto son:
+
+* automatización reproducible con Karate
+* archivos fuente necesarios para ejecución
+* reportes de ejecución
+* `readme.txt`
+* `conclusiones.txt`
+* repositorio GitHub público
+
+---
+
+## 5. LIMITACIONES Y CONSIDERACIONES
+
+* El ambiente es público y compartido.
+* Puede existir interferencia por datos creados por terceros.
+* El requirement no fija schemas exactos ni status codes exactos.
+* La implementación debe distinguir entre:
+
+  * lo requerido por el ejercicio
+  * lo observado durante ejecución
+  * lo opcional o candidate
+* Cualquier hallazgo observable del comportamiento real debe documentarse en `conclusiones.txt` o en la implementación, sin convertirlo retroactivamente en requisito original del reto.
+
+---
+
+**Fin de la especificación**
+
+```
+```
