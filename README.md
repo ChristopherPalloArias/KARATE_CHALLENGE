@@ -28,6 +28,17 @@
 
 ---
 
+## 📌 Panel de Evaluación y Entregables Solicitados
+
+> ⚠️ **ATENCIÓN EVALUADOR:** Todos los insumos obligatorios exigidos en el Ejercicio 2 de la automatización API de PetStore fueron resueltos, documentados y pueden ser auditados de forma inmediata:
+
+- 📄 **Instrucciones de Ejecución Paso a Paso:** [`readme.txt`](./readme.txt) 
+- 🧠 **Hallazgos y Conclusiones QA:** [`conclusiones.txt`](./conclusiones.txt) 
+- 📊 **Evidencia de Ejecución (Karate HTML Report):** 👉 **[Visualizar Documentación de Pruebas y Requests E2E en GitHub Pages](https://ChristopherPalloArias.github.io/KARATE_CHALLENGE/)**
+- 🚀 **Script Principal Feature (Flujo Completo E2E):** [`src/test/java/api/petstore/petstore-exercise-2.feature`](./src/test/java/api/petstore/petstore-exercise-2.feature)
+
+---
+
 ## 📋 Tabla de Contenidos
 1. [Contexto del Reto](#-contexto-del-reto)
 2. [Entorno y Prerrequisitos (Compatibilidad)](#️-entorno-y-prerrequisitos-compatibilidad)

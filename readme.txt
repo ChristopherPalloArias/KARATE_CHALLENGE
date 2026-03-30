@@ -1,30 +1,34 @@
-============ INSTRUCCIONES DE EJECUCION DE LA SUITE KARATE (EJERCICIO 2) ============
+===========================================================
+EJERCICIO 2: Automatización API Lifecycle (Karate DSL)
+===========================================================
 
-REQUISITOS PREVIOS:
-1. Tener instalado Java 17 en su sistema local (validar con: java -version)
-2. Tener instalado Maven 3.8 o superior (validar con: mvn -v)
-3. Conectividad estable a Internet, dado que las pruebas atacan directamente el entorno publico: https://petstore.swagger.io/
+1. TECNOLOGÍAS Y VERSIONES A USAR
+-----------------------------------------------------------
+- Framework Automatización: Karate DSL (v1.5.0)
+- Lenguaje / Plataforma: Java JDK (Versión 17 LTS requerida)
+- Gestor de Dependencias: Apache Maven (v3.8 o superior)
+- Trazabilidad y Aserción E2E: JUnit 5 (Orquestador embebido)
 
-PASO A PASO:
-1. Clonar el repositorio publico o extraer los archivos del proyecto en un directorio local:
-   > git clone https://github.com/ChristopherPalloArias/KARATE_CHALLENGE.git
-   > cd KARATE_CHALLENGE
+2. INSTRUCCIONES DE EJECUCIÓN PASO A PASO
+-----------------------------------------------------------
+Paso A: Abra una terminal o línea de comandos.
 
-2. Limpiar compilaciones anteriores y descargar las dependencias del archivo pom.xml:
-   > mvn clean
+Paso B: Clonar el proyecto y posicionarse en la carpeta raíz.
+Comando a ejecutar: cd /ruta/al/proyecto/KARATE_CHALLENGE
 
-3. Ejecutar la clase Runner de las pruebas del ciclo E2E (El proyecto esta seteado para auto-configurar el baseUrl con https://petstore.swagger.io/v2 y lanzar la suite definida en src/test/java/api/petstore/petstore-exercise-2.feature):
-   > mvn test -Dtest=ChallengeTest
+Paso C: Verifique en su terminal que Java y Maven estén configurados.
+Comandos útiles: java -version / mvn -v
 
-   Nota opcional: Tambien puedes definir o sobreescribir explicitamente el ambiente enviando -DbaseUrl="https://petstore.swagger.io/v2".
+Paso D: Limpie compilaciones previas y ejecute la suite de pruebas completa:
+Comando E2E: mvn clean test -Dtest=ChallengeTest
 
-4. Validar el resultado devuelto en la consola por surefire (BUILD SUCCESS, Tests run: 1, Failures: 0).
+(Nota: El framework autoconfigura internamente la URL a https://petstore.swagger.io/v2 en su ambiente nativo).
 
-5. Abrir la Evidencia de Trazabilidad y el HTML Report generado automaticamente por Karate:
-   - Dirigete dentro de tu sistema al directorio:
-     /KARATE_CHALLENGE/target/karate-reports/
-   - Abre con tu explorador de internet favorito el archivo maestro:
-     karate-summary.html
-   - En este reporte encontraras la minuciosa resolucion, documentacion del envio de variables (Request Body JSON), recepcion y match de aserciones.
+3. EVIDENCIAS Y REPORTES OFICIALES (HTML REPORT)
+-----------------------------------------------------------
+A diferencia de otras metodologías, Karate DSL no exige dependencias pesadas de reportabilidad. Genera nativamente en una fracción de segundo su "Living Documentation" llena de trazas JSON (Request/Response).
 
-FIN DE LA EJECUCION.
+- Ubique la carpeta generada: /target/karate-reports
+- Dé doble clic sobre el archivo principal: karate-summary.html
+
+Si inspecciona este reporte, confirmará que las 4 transacciones exigidas (Crear, Recuperar ID, Actualizar "sold" y Recuperar por Status) se empalmaron exitosamente a nivel idempotencial en un solo flujo verde impecable.
